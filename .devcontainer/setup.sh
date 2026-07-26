@@ -14,7 +14,7 @@ echo ""
 
 # ── Verdaccio ────────────────────────────────────────────────
 echo "[1/6] Installing Verdaccio..."
-sudo npm install -g verdaccio --silent
+npm install -g verdaccio --silent
 
 mkdir -p ~/.config/verdaccio/storage
 cp "$WORKDIR/verdaccio/config.yaml" ~/.config/verdaccio/config.yaml
