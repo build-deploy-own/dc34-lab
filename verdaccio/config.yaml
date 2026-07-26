@@ -1,0 +1,34 @@
+storage: ./storage
+auth:
+  htpasswd:
+    file: ./htpasswd
+    max_users: -1
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  'corp-logger-utils':
+    access: $anonymous
+    publish: $anonymous
+    # No upstream proxy — served only from local storage
+
+  '@*/*':
+    access: $authenticated
+    publish: $authenticated
+    proxy: npmjs
+
+  '**':
+    access: $anonymous
+    publish: $anonymous
+    proxy: npmjs
+
+server:
+  keepAliveTimeout: 60
+
+web:
+  title: "Lab npm Registry"
+
+logs:
+  - { type: stdout, format: pretty, level: http }

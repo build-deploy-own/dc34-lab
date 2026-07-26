@@ -1,0 +1,41 @@
+{
+  "name": "DC34 Lab — CI/CD Weaponization",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" },
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "forwardPorts": [4873],
+  "portsAttributes": {
+    "4873": {
+      "label": "Verdaccio (lab npm registry)",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "verdaccio --config ~/.config/verdaccio/config.yaml &>/tmp/verdaccio.log & sleep 2 && cd ~/project && npm publish --registry http://localhost:4873 2>/dev/null || true",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint",
+        "GitHub.vscode-pull-request-github"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "npm.fetchOnlinePackageInfo": false,
+        "terminal.integrated.fontSize": 14
+      }
+    }
+  },
+
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "LAB_PAT": "${localEnv:LAB_PAT}"
+  }
+}
