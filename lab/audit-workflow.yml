@@ -1,0 +1,28 @@
+# dependency-audit.yml
+#
+# The workflow planted into target repositories in Module 3, Phase 3.
+# Committed through the Contents API with a personal access token, which is
+# what makes it self-triggering: commits pushed with the built-in workflow
+# token do not start new runs, commits pushed with a PAT do.
+#
+# The file is deliberately inert. What the module demonstrates is the
+# mechanism of planting self-triggering code in repositories nobody watches,
+# not what that code does once it runs. The filename is chosen to look like
+# routine maintenance; nobody opens a dependency audit twice.
+
+name: dependency-audit
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dependency audit
+        run: |
+          echo "[LAB] planted workflow executed"
+          echo "[LAB] repo=${GITHUB_REPOSITORY} run=${GITHUB_RUN_NUMBER}"
+          echo "[LAB] triggered by=${GITHUB_EVENT_NAME} actor=${GITHUB_ACTOR}"
